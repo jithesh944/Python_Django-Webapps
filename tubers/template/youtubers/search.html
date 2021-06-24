@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main class="searchpage">
+    <div class="banner">
+        <img src="{% static './assets/images/bg-banner.png' %}" alt="" class="img-fluid w-100">
+        <h1 class="text-center">
+            Search Result
+        </h1>
+    </div>
+
+    <section class="searchbox container mt-5 p-3 bg-accent">
+        <form method="GET" action = "{% url 'search' %}">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <select name="city" id="inputState" class="form-control">
+                        <option selected disabled hidden>City</option>
+                        {% for city in city_search %}
+                        <option value="{{city}}">{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <select name="camera_type" id="inputState" class="form-control">
+                        <option selected disabled hidden>Camera Type</option>
+                        {% for individual_camera in camera_type_search %}
+                        <option value="{{individual_camera}}">{{individual_camera}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <select name="category " class="form-control">
+                        <option selected disabled hidden>Category</option>
+                        {% for each_category in category_search %}
+                        <option value="{{each_category}}">{{each_category}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-light">Search</button>
+            </div>
+        </form>
+
+    </section>
+
+
+
+    <section class="search-results container mt-3 grid">
+
+        <!-- person 1 -->
+        {% for each_tuber in tubers %}
+        <div class="card border-0 text-center">
+            <div class="feature-text">
+                <a href="{% url 'youtuber_detail' each_tuber.id %}">
+                    <img src="{{ each_tuber.photo.url }}" class="card-img-top" alt="team-member">
+                </a>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ each_tuber.name }}</h5>
+                <p class="card-text">{{ each_tuber.category }}</p>
+                <div class="person-description mt-2">
+                    <button class="btn btn-accent"> City: {{ each_tuber.city }}</button>
+                    <button class="btn btn-accent"> Age: {{each_tuber.age }}</button>
+                    <button class="btn btn-accent"> Height: {{ each_tuber.height }} </button>
+                </div>
+                <div class="person-description mt-2">
+                    <button class="btn btn-accent"> Crew: {{ each_tuber.crew }}</button>
+                    <button class="btn btn-accent"> Camera: {{ each_tuber.camera_type }} </button>
+                    <button class="btn btn-accent"> Subs: {{ each_tuber.subs_count }}</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+    </section>
+</main>
+
+
+{% endblock %}
